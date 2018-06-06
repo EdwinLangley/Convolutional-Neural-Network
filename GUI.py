@@ -77,10 +77,20 @@ class Window(QtWidgets.QWidget):
         """
 
         self.pwindow = SecondWindow()
-        self.pwindow.setGeometry(100,100,500,400)
+        self.pwindow.setGeometry(500, 400, 500, 260)
         self.pwindow.setFixedSize(self.pwindow.size())
         self.pwindow.setWindowTitle("Image Augmentation Information")
         self.pwindow.show()
+
+        #NEED TO RENAME VARS
+        self.pwindow.comparisonicon = QImage("IMG/iamcats.png")
+        self.pwindow.comparisonscaledimage = self.pwindow.comparisonicon.scaled(QSize(250, 250))
+        self.pwindow.comparisonimage = QtWidgets.QLabel(self.pwindow)
+        self.pwindow.comparisonimage.setPixmap(QtGui.QPixmap.fromImage(self.pwindow.comparisonscaledimage))
+        self.pwindow.comparisonimage.setGeometry(250,5,250,250)
+        self.pwindow.comparisonimage.show()
+
+
 
 
     def passes_info_window(self):
@@ -93,6 +103,13 @@ class Window(QtWidgets.QWidget):
         self.pawindow.setFixedSize(self.pawindow.size())
         self.pawindow.setWindowTitle("Passes Information")
         self.pawindow.show()
+
+        self.pawindow.comparisonicon = QImage("IMG/iamcats.png")
+        self.pawindow.comparisonscaledimage = self.pawindow.comparisonicon.scaled(QSize(250, 250))
+        self.pawindow.comparisonimage = QtWidgets.QLabel(self.pawindow)
+        self.pawindow.comparisonimage.setPixmap(QtGui.QPixmap.fromImage(self.pawindow.comparisonscaledimage))
+        self.pawindow.comparisonimage.setGeometry(250,5,250,250)
+        self.pawindow.comparisonimage.show()
 
 
 
