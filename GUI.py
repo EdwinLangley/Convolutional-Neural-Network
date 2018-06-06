@@ -1,8 +1,8 @@
 import sys
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QImage, QPalette, QBrush
-from PyQt5.QtWidgets import QApplication, QFileDialog, QTextEdit, QComboBox, QStyleFactory, QSpinBox, QLabel, QPushButton
+from PyQt5.QtGui import QImage, QPalette, QBrush, QIcon
+from PyQt5.QtWidgets import QFileDialog, QTextEdit, QComboBox, QStyleFactory, QSpinBox, QLabel, QPushButton, QProgressBar, QMainWindow, QGraphicsEffect
 
 
 class Window(QtWidgets.QWidget):
@@ -21,7 +21,7 @@ class Window(QtWidgets.QWidget):
         self.setFixedSize(self.size())
         self.openButton.setText("Open Image")
         self.openButton.clicked.connect(self.openButton_click)
-        self.openButton.move(375, 450)
+        self.openButton.move(325, 450)
         self.load_initial_images()
         self.show()
         app.setStyle(QStyleFactory.create('Fusion'))
@@ -66,9 +66,34 @@ class Window(QtWidgets.QWidget):
         self.comparisonscaledimage = self.comparisonicon.scaled(QSize(250, 250))
         self.comparisonimage = QtWidgets.QLabel(self)
         self.comparisonimage.setPixmap(QtGui.QPixmap.fromImage(self.comparisonscaledimage))
-        self.comparisonimage.move(200, 180)
+        self.comparisonimage.move(150, 180)
         self.edittextbox.setText(self.comparison_image)
         self.comparisonimage.show()
+
+    def im_aug_info_window(self):
+        """
+
+        :return:
+        """
+
+        self.pwindow = SecondWindow()
+        self.pwindow.setGeometry(100,100,500,400)
+        self.pwindow.setFixedSize(self.pwindow.size())
+        self.pwindow.setWindowTitle("Image Augmentation Information")
+        self.pwindow.show()
+
+
+    def passes_info_window(self):
+        """
+
+        :return:
+        """
+        self.pawindow = SecondWindow()
+        self.pawindow.setGeometry(100,100,500,400)
+        self.pawindow.setFixedSize(self.pawindow.size())
+        self.pawindow.setWindowTitle("Passes Information")
+        self.pawindow.show()
+
 
 
     def load_initial_images(self):
@@ -80,11 +105,11 @@ class Window(QtWidgets.QWidget):
         self.comparisonscaledimage = self.comparisonicon.scaled(QSize(250, 250))
         self.comparisonimage = QtWidgets.QLabel(self)
         self.comparisonimage.setPixmap(QtGui.QPixmap.fromImage(self.comparisonscaledimage))
-        self.comparisonimage.move(200, 180)
+        self.comparisonimage.move(150, 180)
         self.comparisonimage.show()
 
         self.edittextbox = QTextEdit(self)
-        self.edittextbox.setGeometry(200, 450, 150, 23)
+        self.edittextbox.setGeometry(150, 450, 150, 23)
         self.edittextbox.setText("No Image selected")
         self.edittextbox.setReadOnly(True)
         self.edittextbox.show()
@@ -97,21 +122,21 @@ class Window(QtWidgets.QWidget):
         self.graphimage.show()
 
         self.preprocessingcombobox = QComboBox(self)
-        self.preprocessingcombobox.setGeometry(675, 180, 75, 23)
+        self.preprocessingcombobox.setGeometry(695, 180, 75, 23)
         self.preprocessingcombobox.addItem("YES")
         self.preprocessingcombobox.addItem("NO")
 
         self.passesspinbox = QSpinBox(self)
-        self.passesspinbox.setGeometry(675, 240, 75, 23)
+        self.passesspinbox.setGeometry(695, 240, 75, 23)
         self.passesspinbox.setMaximum(100000)
         self.passesspinbox.setValue(500)
 
         self.preprocessingcomboboxinfo = QLabel(self)
         self.passesspinboxinfo = QLabel(self)
         font = QtGui.QFont("Times", 10, QtGui.QFont.Bold)
-        self.preprocessingcomboboxinfo.setGeometry(490,165,150,50)
-        self.passesspinboxinfo.setGeometry(490,225,150,50)
-        self.preprocessingcomboboxinfo.setText("With Pre-Processing?")
+        self.preprocessingcomboboxinfo.setGeometry(440,165,200,50)
+        self.passesspinboxinfo.setGeometry(440,225,200,50)
+        self.preprocessingcomboboxinfo.setText("With Image Augmentation?")
         self.passesspinboxinfo.setText("No. Of Passes")
         self.preprocessingcomboboxinfo.setFont(font)
         self.passesspinboxinfo.setFont(font)
@@ -120,7 +145,34 @@ class Window(QtWidgets.QWidget):
         self.runbutton.setText("Run Categorisation")
         self.runbutton.setGeometry(500, 575, 200, 100)
 
+        self.progressbar = QProgressBar(self)
+        self.progressbar.setGeometry(100, 525, 1000, 25)
+        self.progressbar.setValue(75)
 
+        self.savegraphbutton = QPushButton(self)
+        self.savegraphbutton.setText("Save Graph As Image")
+        self.savegraphbutton.setGeometry(800,450,250,25)
+
+        self.infoicon = QImage("IMG/info.png")
+        self.infoimage = QPushButton(self)
+        self.infoimage.setIcon(QIcon("IMG/info.png"))
+        self.infoimage.setIconSize(QSize(20,20))
+        self.infoimage.move(640, 180)
+        self.infoimage.show()
+
+        self.infoimage2 = QPushButton(self)
+        self.infoimage2.setIcon(QIcon("IMG/info.png"))
+        self.infoimage2.setIconSize(QSize(20,20))
+        self.infoimage2.move(640, 240)
+        self.infoimage2.show()
+
+        self.infoimage.clicked.connect(self.im_aug_info_window)
+        self.infoimage2.clicked.connect(self.passes_info_window)
+
+
+class SecondWindow(QMainWindow):
+    def __init__(self):
+        super(SecondWindow, self).__init__()
 
 
 if __name__ == '__main__':
