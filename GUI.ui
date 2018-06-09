@@ -207,7 +207,7 @@
        <string>Save Output as IMG</string>
       </property>
      </widget>
-     <widget class="QPlainTextEdit" name="target_img_src">
+     <widget class="QTextEdit" name="target_img_src">
       <property name="geometry">
        <rect>
         <x>230</x>
@@ -217,10 +217,7 @@
        </rect>
       </property>
       <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
+       <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
      </widget>
      <zorder>background</zorder>
@@ -394,7 +391,7 @@
        <number>24</number>
       </property>
      </widget>
-     <widget class="QPushButton" name="run_train">
+     <widget class="QPushButton" name="run_train_btn">
       <property name="geometry">
        <rect>
         <x>500</x>
@@ -416,7 +413,7 @@
      <zorder>imgaug_info_btn</zorder>
      <zorder>passes_info_btn</zorder>
      <zorder>train_progressBar</zorder>
-     <zorder>run_train</zorder>
+     <zorder>run_train_btn</zorder>
     </widget>
    </widget>
   </widget>

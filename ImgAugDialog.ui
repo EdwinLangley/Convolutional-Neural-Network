@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>654</width>
+    <height>382</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Image Augmentation</string>
+  </property>
+  <widget class="QLabel" name="imglabel">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>10</y>
+     <width>271</width>
+     <height>371</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>IMG/iamcats.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="txt_lbl">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>341</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus bib&lt;/p&gt;&lt;p&gt;endum scelerisque. Sed molestie sapien sit amet sem posuere, nec&lt;/p&gt;&lt;p&gt;tincidunt purus dignissim. Vestibulum porttitor tortor at arcu&lt;/p&gt;&lt;p&gt;semper feugiat. Etiam eget nulla sapien. Pellentesque vitae rutrum&lt;/p&gt;&lt;p&gt;sapien, quis finibus lorem. Fusce dictum nunc ac risus egestas suscipit.&lt;/p&gt;&lt;p&gt;Cras sit amet risus sollicitudin, interdum ligula vitae, bibendum odio.&lt;/p&gt;&lt;p&gt;In hac habitasse platea dictumst. Curabitur nec accumsan turpis.&lt;/p&gt;&lt;p&gt;Donec metus diam, eleifend in rutrum sed, tincidunt ultricies orci.&lt;/p&gt;&lt;p&gt;Vestibulum maximus odio at nisi vulputate mollis. Integer a laoreet&lt;/p&gt;&lt;p&gt;ipsum. Sed gravida libero a feugiat tincidunt. Sed a posuere nisl.&lt;/p&gt;&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus bib&lt;/p&gt;&lt;p&gt;endum scelerisque. Sed molestie sapien sit amet sem posuere, nec&lt;/p&gt;&lt;p&gt;tincidunt purus dignissim. Vestibulum porttitor tortor at arcu&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="scaledContents">
+    <bool>false</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
