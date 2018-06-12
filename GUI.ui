@@ -57,7 +57,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="Categorisation">
      <property name="sizePolicy">
@@ -299,7 +299,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>No. Of Passes</string>
+       <string>No. Of Epoch Passes</string>
       </property>
      </widget>
      <widget class="QSpinBox" name="passes_spinbox">
