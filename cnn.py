@@ -54,32 +54,30 @@ if not os.path.isfile('model.h5'):
   classifier.add(Dense(activation="softmax", units=10))
 
   # Compiling the CNN
-  classifier.compile(optimizer = 'adam', loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'])
+  classifier.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
   # Part 2 - Fitting the CNN to the images
 
   from keras.preprocessing.image import ImageDataGenerator
 
-  train_datagen = ImageDataGenerator(samplewise_center=True,
-                                    samplewise_std_normalization=True,
+  train_datagen = ImageDataGenerator(
                                     rescale = 1./255,
                                     shear_range = 0.2,
                                     zoom_range = 0.2,
                                     horizontal_flip = True)
 
-  test_datagen = ImageDataGenerator(samplewise_center=True,
-                                    samplewise_std_normalization=True,
+  test_datagen = ImageDataGenerator(
                                     rescale = 1./255)
 
   training_set = train_datagen.flow_from_directory('dataset/training_set',
                                                    target_size = (64, 64),
                                                    batch_size = 16,
-                                                   class_mode = 'sparse')
+                                                   class_mode = 'categorical')
 
   test_set = test_datagen.flow_from_directory('dataset/test_set',
                                               target_size = (64, 64),
                                               batch_size = 16,
-                                              class_mode = 'sparse')
+                                              class_mode = 'categorical')
 
   classifier.fit_generator(
                            training_set,
@@ -98,7 +96,7 @@ else:
   classifier = load_model('model.h5')
  
 
-img_path = 'dataset/new/3.jpg'
+img_path = 'dataset/new/4.jpg'
 
 new_image = load_image(img_path)
 
