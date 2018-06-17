@@ -16,6 +16,7 @@ class NNet:
 
     def __init__(self):
         self.classifier = Sequential()
+        self.possible_to_run = False
 
 
     def conv_pool_layers(self):
@@ -74,6 +75,7 @@ class NNet:
 
     def load_model(self, path):
         self.classifier = load_model(path)
+        self.possible_to_run = True
 
 
     def fit_data_to_model(self):
@@ -87,6 +89,7 @@ class NNet:
             validation_steps=10,
             verbose=1,
             use_multiprocessing=False)
+        self.possible_to_run = True
 
 
     def make_prediction_on_model(self, path):

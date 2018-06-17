@@ -1,9 +1,11 @@
 import sys
 from PyQt5 import QtWidgets, uic
-from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QStyleFactory, QFileDialog
+from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QStyleFactory, QFileDialog, QMessageBox
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import QSize
 from cnn import NNet
+
+import ntpath
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -23,14 +25,23 @@ class Mainwindow():
         self.dlg.show()
 
     def run_category(self):
+        """
 
-        nn.make_prediction_on_model(self.comparison_image)
-        nn.make_pie_chart()
+        :return:
+        """
+        if nn.possible_to_run == True:
+            nn.make_prediction_on_model(self.comparison_image)
+            nn.make_pie_chart()
 
-        self.graph_image =  QImage("IMG/last_pie.png")
-        self.graph_scaled_image = self.graph_image.scaled(QSize(630, 470))
-        self.dlg.results_image.setPixmap(QPixmap.fromImage(self.graph_scaled_image))
-        self.dlg.results_image.show()
+            self.graph_image =  QImage("IMG/last_pie.png")
+            self.graph_scaled_image = self.graph_image.scaled(QSize(630, 470))
+            self.dlg.results_image.setPixmap(QPixmap.fromImage(self.graph_scaled_image))
+            self.dlg.results_image.show()
+        else:
+            self.error_dialog = QtWidgets.QErrorMessage()
+            self.error_dialog.showMessage('Oh no! You don\'t seem to have a model loaded or trained.'
+                                          ' You\'ll need to do this to '
+                                          'run the categorisation')
 
 
     def open_image(self):
@@ -51,12 +62,30 @@ class Mainwindow():
 
         :return:
         """
+        global nn
+        if nn.possible_to_run == False:
+            nn.conv_pool_layers()
+            nn.flattening()
+            nn.full_connection()
+            nn.gen_train_test()
+            nn.fit_data_to_model()
+        else:
+            self.qm = QMessageBox
+            self.ret = self.qm.question(None, '', "This will overwrite the current trained model. Are you sure?", self.qm.Yes | self.qm.No)
 
-        nn.conv_pool_layers()
-        nn.flattening()
-        nn.full_connection()
-        nn.gen_train_test()
-        nn.fit_data_to_model()
+            if self.ret == self.qm.Yes:
+                nn = None
+                nn = NNet()
+
+                nn.conv_pool_layers()
+                nn.flattening()
+                nn.full_connection()
+                nn.gen_train_test()
+                nn.fit_data_to_model()
+
+            if self.ret == self.qm.No:
+                print("ignored")
+
 
 
     def img_aug_dialog(self):
@@ -75,11 +104,34 @@ class Mainwindow():
 
 
     def load_model_handle(self):
-        nn.load_model("model.h5")
+        """
+
+        :return:
+        """
+        self.model_path, _ = QFileDialog.getOpenFileName(None, "Open Model", "~", "Models (*.h5)")
+        self.model_name = self.path_leaf(self.model_path)
+        self.dlg.current_model_QTE.setText(self.model_name)
+        nn.load_model(self.model_path)
 
 
     def save_model_handle(self):
-        nn.save_model("model.h5")
+        """
+
+        :return:
+        """
+
+        self.save_model_name, _  = QFileDialog.getSaveFileName(None, "Save Model", "~", "Models (*.h5)")
+        nn.save_model(self.save_model_name)
+
+
+    def path_leaf(self, path):
+        """
+
+        :param path:
+        :return:
+        """
+        head, tail = ntpath.split(path)
+        return tail or ntpath.basename(head)
 
 
 class InfoDialogAug():
