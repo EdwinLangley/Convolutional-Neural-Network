@@ -64,15 +64,18 @@ class Mainwindow():
         """
         global nn
         if nn.possible_to_run == False:
+
             text, okPressed = QInputDialog.getText(None, "Model Name", "What would you like to call this model?:", QLineEdit.Normal, "")
-            if okPressed and text != '':
-                print(text)
+
+            
             nn.conv_pool_layers()
             nn.flattening()
             nn.full_connection()
             nn.gen_train_test()
             nn.fit_data_to_model()
+
             nn.save_model("Models/" + text + ".h5")
+
         else:
             self.qm = QMessageBox
             self.ret = self.qm.question(None, '', "This will overwrite the current trained model. Are you sure?", self.qm.Yes | self.qm.No)
