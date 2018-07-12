@@ -10,7 +10,7 @@ Pillow <br />
 
 ## User Instructions
 Categories can be trained by placing images in folders that are named the same as the desired label.<br />
-![alt text](https://gdurl.com//Pjl7 "Logo Title Text 1")
+![alt text](https://lh4.googleusercontent.com/ucj_ZOc8PWJMg9fMn7whdQdaik3ZlX828G3tr9nZHkBVPjlso6uC6xF0cglG5szRAZjUT2J0i808pTaVXN0P=w1911-h2034-rw "Logo Title Text 1")
 
 Training can be triggered in the training tab with many associated properties <br />
 Once training is complete, the model can be saved into storage<br />
