@@ -1,8 +1,8 @@
 # Python Convolutional Neural Network
 
 ## Prerequisites
-Python 3
-Numpy
-TensorFlow
-Keras
+Python 3<br />
+Numpy<br />
+TensorFlow<br />
+Keras<br />
 
