@@ -1,4 +1,5 @@
 # Python Convolutional Neural Network
+A multi-purpose Categorizing CNN that can be train on images with different training properties from the provided GUI. 
 
 ## Prerequisites
 Python 3<br />
