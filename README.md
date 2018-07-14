@@ -13,7 +13,7 @@ Pillow <br />
 Categories can be trained by placing images in folders that are named the same as the desired label.<br />
 Training can be triggered in the training tab with many associated properties <br />
 
-![alt text](https://lh5.googleusercontent.com/tGjfVxo8LMvVLmiovvRNX0azImxp7pinctKL4t0vLl_MkD2D9dHCaavmZ5cTtPsunEfiHQ-oLVwso93ztrNb=w1911-h2034-rw "Logo Title Text 1")
+![alt text](https://drive.google.com/uc?export=view&id=1dS5xRzgcfsqsxMj-jWCbke-OWLFeN9OE "Logo Title Text 1")
 
 Once training is complete, the model can be saved into storage<br />
 Previously trained models can be loaded into the program <br />
