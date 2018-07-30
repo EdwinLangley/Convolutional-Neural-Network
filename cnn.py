@@ -59,12 +59,12 @@ class NNet:
         self.test_datagen = ImageDataGenerator(
             rescale=1. / 255)
 
-        self.training_set = self.train_datagen.flow_from_directory('dataset/training_set',
+        self.training_set = self.train_datagen.flow_from_directory('dataset/training_data',
                                                          target_size=(64, 64),
                                                          batch_size=16,
                                                          class_mode='categorical')
 
-        self.test_set = self.test_datagen.flow_from_directory('dataset/test_set',
+        self.test_set = self.test_datagen.flow_from_directory('dataset/testing_data',
                                                     target_size=(64, 64),
                                                     batch_size=16,
                                                     class_mode='categorical')
@@ -82,7 +82,7 @@ class NNet:
         self.classifier.fit_generator(
             self.training_set,
             steps_per_epoch=80,
-            epochs=25,
+            epochs=100,
             validation_data=self.test_set,
             workers=100,
             max_queue_size=100,
@@ -129,4 +129,12 @@ class NNet:
             plt.show()
 
         return img_tensor
+
+if __name__ == '__main__':
+    nn = NNet()
+    nn.conv_pool_layers()
+    nn.flattening()
+    nn.full_connection()
+    nn.gen_train_test()
+    nn.fit_data_to_model()
 

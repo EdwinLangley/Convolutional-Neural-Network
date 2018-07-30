@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QStyleFactory, Q
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import QSize
 from cnn import NNet
+from threading import Thread
 
 import ntpath
 
@@ -67,12 +68,7 @@ class Mainwindow():
 
             text, okPressed = QInputDialog.getText(None, "Model Name", "What would you like to call this model?:", QLineEdit.Normal, "")
 
-            
-            nn.conv_pool_layers()
-            nn.flattening()
-            nn.full_connection()
-            nn.gen_train_test()
-            nn.fit_data_to_model()
+            self.train()
 
             nn.save_model("Models/" + text + ".h5")
 
@@ -84,16 +80,23 @@ class Mainwindow():
                 nn = None
                 nn = NNet()
 
-                nn.conv_pool_layers()
-                nn.flattening()
-                nn.full_connection()
-                nn.gen_train_test()
-                nn.fit_data_to_model()
+                self.train()
 
             if self.ret == self.qm.No:
                 print("ignored")
 
+    def train(self):
+        """
 
+        """
+
+        global nn
+
+        nn.conv_pool_layers()
+        nn.flattening()
+        nn.full_connection()
+        nn.gen_train_test()
+        nn.fit_data_to_model()
 
     def img_aug_dialog(self):
         """
