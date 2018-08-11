@@ -82,7 +82,7 @@ class NNet:
         self.classifier.fit_generator(
             self.training_set,
             steps_per_epoch=80,
-            epochs=100,
+            epochs=4,
             validation_data=self.test_set,
             workers=100,
             max_queue_size=100,
@@ -130,11 +130,11 @@ class NNet:
 
         return img_tensor
 
-if __name__ == '__main__':
-    nn = NNet()
-    nn.conv_pool_layers()
-    nn.flattening()
-    nn.full_connection()
-    nn.gen_train_test()
-    nn.fit_data_to_model()
+    def run_train(self):
+        self.conv_pool_layers()
+        self.flattening()
+        self.full_connection()
+        self.gen_train_test()
+        self.fit_data_to_model()
 
+# if __name__ == '__main__':

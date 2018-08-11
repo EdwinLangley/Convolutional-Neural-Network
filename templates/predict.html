@@ -1,9 +1,35 @@
 {% extends 'layout.html' %} {% block body %}
 <div class="jumbotron text-center">
     <h1>Predictions</h1>
-    <p>The lepidopterarium is an online area where you can upload your pictures and find out what species of lepidoptera it belongs to.</p>
+    <p>The lepidopterarium is an online area where you can upload your pictures and find out what species of lepidoptera it
+        belongs to.</p>
 </div>
 
 
+<form action="" method="post" enctype="multipart/form-data">
+    {{ form.csrf }}
 
+    <div class="input text">
+        {{ form.name.label }} {{ form.name }}
+    </div>
+
+    <div class="input text">
+        {{ form.email.label }} {{ form.email }}
+    </div>
+
+    </br>
+
+    <div class="input photo">
+        {{ form.photo.label }}
+    </br>
+        {{ form.photo }}
+        <img src="{{ user_image }}" alt="User Image">
+    </div>
+
+    </br></br>
+    <div class="input submit">
+        <input type="submit" value="Submit" />
+    </div>
+
+    
 {% endblock %}
