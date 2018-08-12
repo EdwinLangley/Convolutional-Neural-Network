@@ -1,0 +1,36 @@
+{% extends 'layout.html' %} {% block body %}
+<div class="jumbotron text-center">
+    <h1>Results</h1>
+    <p>View the result of predictions here</p>
+</div>
+
+<style>
+    table, th, td {
+    border: 1px solid black;
+}
+</style>
+
+
+<table style="width:100%">
+    <tr>
+        <th>Time</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Image Name</th>
+        <th>Outcome</th>
+    </tr>
+    {% for result in Results %}
+    <tr>
+        <td>{{ result.Time }}</td>
+        <td>{{ result.Name }}</td>
+        <td>{{ result.Email }}</td>
+        <td><a href="/static/img/{{ result.FileName }}">{{ result.FileName }}</a></td>
+        <td><a href="/static/img/{{ result.FileName }}">{{ result.FileName }}</a></td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+
+
+{% endblock %}
