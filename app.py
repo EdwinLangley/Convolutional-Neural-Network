@@ -6,6 +6,7 @@ from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import SubmitField
 import sqlite3
 from threading import Thread 
+import os
 
 #from cnn import NNet
 
@@ -24,6 +25,16 @@ species_choices = [('Danaus plexippus','Danaus plexippus'),('Heliconius chariton
 app.config['UPLOADED_PHOTOS_DEST'] = 'static/img'
 configure_uploads(app, photos)
 
+class PredictionDetails(Form):
+    photo = FileField('Photo', validators=[FileAllowed(photos, u'Image only!'), FileRequired(u'File was empty!')])
+    name = TextField('Name:', validators=[validators.required()])
+    email = TextField('Email:', validators=[validators.required()])
+    # actualTag = SelectField("Tag", choices=species_choices)
+
+class ContributionDetails(Form):
+    photo = FileField('Photo', validators=[FileAllowed(photos, u'Image only!'), FileRequired(u'File was empty!')])
+    name = TextField('Name:', validators=[validators.required()])
+    species = SelectField('Species:', choices=species_choices)
 
 @app.route('/')
 def index():
@@ -33,20 +44,28 @@ def index():
 def about():
     return render_template('about.html')
 
-@app.route('/contribute')
+@app.route('/contribute', methods=['GET', 'POST'])
 def contribute():
-    return render_template('contribute.html')
+    form = ContributionDetails(request.form)
+    if request.method == 'POST' and 'photo' in request.files:
+        name = request.form['name']
+        species = request.form['species']
+        filename = photos.save(request.files['photo'],species)
+        print(name, species)
+        return render_template('thanks.html')
+
+    return render_template('contribute.html', form=form)
+
+@app.route('/thanks')
+def thanks():
+    return render_template('thanks.html')
 
 @app.route('/results')
 def results():
     Results = db.get_all_entries()
     return render_template('results.html', Results=Results)
 
-class PredictionDetails(Form):
-    photo = FileField('Photo', validators=[FileAllowed(photos, u'Image only!'), FileRequired(u'File was empty!')])
-    name = TextField('Name:', validators=[validators.required()])
-    email = TextField('Email:', validators=[validators.required()])
-    # actualTag = SelectField("Tag", choices=species_choices)
+
     
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
@@ -59,6 +78,7 @@ def predict():
         print(name, email, filename)
         db.add_prediction_to_db(name,email,filename)
         dbrunner = DB_Runner()
+        return render_template('thanks.html')
     
     return render_template('predict.html', form=form)
 
