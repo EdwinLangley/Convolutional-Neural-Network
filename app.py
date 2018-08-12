@@ -5,12 +5,15 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import SubmitField
 import sqlite3
+from threading import Thread 
 
-from cnn import NNet
+#from cnn import NNet
 
-path_to_db = 'db/predictions.db'
+from databasehelper import database_object
+from dbrunner import DB_Runner
 
-nnet = NNet()
+
+#nnet = NNet()
 
 app = Flask(__name__)
 
@@ -43,7 +46,7 @@ class PredictionDetails(Form):
     photo = FileField('Photo', validators=[FileAllowed(photos, u'Image only!'), FileRequired(u'File was empty!')])
     name = TextField('Name:', validators=[validators.required()])
     email = TextField('Email:', validators=[validators.required()])
-    actualTag = SelectField("Tag", choices=species_choices)
+    # actualTag = SelectField("Tag", choices=species_choices)
     
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
@@ -55,46 +58,10 @@ def predict():
         filename = photos.save(request.files['photo'])
         print(name, email, filename)
         db.add_prediction_to_db(name,email,filename)
-        
-        #nnet.run_train()
-        # return filename
+        dbrunner = DB_Runner()
+    
     return render_template('predict.html', form=form)
 
-
-class database_object():
-
-    def create_connection(self):
-        self.conn = sqlite3.connect(path_to_db)
-
-    def create_table(self):
-        self.create_connection()
-        c = self.conn.cursor()
-        c.execute("""CREATE TABLE IF NOT EXISTS predictions(
-            time TEXT,
-            name TEXT,
-            email TEXT,
-            fileLocation TEXT
-        );""")
-        self.conn.commit()
-        self.conn.close()
-
-    def add_prediction_to_db(self, name, email,filename):
-        self.create_connection()
-        c = self.conn.cursor()
-        c.execute("INSERT INTO predictions(time,name, email,fileLocation) VALUES(CURRENT_TIMESTAMP, '" + name + "','" + email + "','" + filename + "');")
-        self.conn.commit()
-        self.conn.close()
-
-    def get_all_entries(self):
-        self.create_connection()
-        c = self.conn.cursor()
-        cur = c.execute("SELECT * FROM predictions")
-        Results = [dict(Time=row[0],
-                    Name=row[1],
-                    Email=row[2],
-                    FileName=row[3]) for row in cur.fetchall()]
-        self.conn.close()
-        return Results
 
 
 if __name__ == '__main__':

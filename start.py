@@ -32,6 +32,7 @@ class Mainwindow():
         """
         if nn.possible_to_run == True:
             nn.make_prediction_on_model(self.comparison_image)
+            print(self.comparison_image)
             nn.make_pie_chart()
 
             self.graph_image =  QImage("IMG/last_pie.png")

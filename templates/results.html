@@ -25,7 +25,12 @@
         <td>{{ result.Name }}</td>
         <td>{{ result.Email }}</td>
         <td><a href="/static/img/{{ result.FileName }}">{{ result.FileName }}</a></td>
-        <td><a href="/static/img/{{ result.FileName }}">{{ result.FileName }}</a></td>
+        {% if result.Outcome == 'Not Yet Classified' %}
+            <td><a href="/static/nograph.png">{{ result.Outcome }}</a></td>
+        {% else %}
+            <td><a href="/static/results/{{ result.Outcome }}">{{ result.Outcome }}</a></td>
+        {% endif %}
+
     </tr>
     {% endfor %}
 

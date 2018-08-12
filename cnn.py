@@ -102,7 +102,7 @@ class NNet:
         print(self.pred)
 
 
-    def make_pie_chart(self):
+    def make_pie_chart(self,filename):
         self.labels = ['Danaus plexippus', 'Heliconius charitonius', 'Heliconius erato', 'Junonia coenia', 'Lycaena phlaeas',
                   'Nymphalis antiopa', 'Papilio cresphontes', 'Pieris rapae',
                   'Vanessa atalanta', 'Vanessa cardui']
@@ -114,7 +114,7 @@ class NNet:
         plt.legend(self.patches, self.labels, loc="best")
         plt.axis('equal')
         plt.tight_layout()
-        plt.savefig('IMG/last_pie.png',bbox_inches='tight')
+        plt.savefig('static/results/output_'+ filename +'.png',bbox_inches='tight')
 
     def load_image(self, img_path, show=False):
         img = image.load_img(img_path, target_size=(64, 64))
@@ -137,4 +137,7 @@ class NNet:
         self.gen_train_test()
         self.fit_data_to_model()
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
+    nnet = NNet()
+    # nnet.make_prediction_on_model("3.jpg")
+    nnet.run_train()
