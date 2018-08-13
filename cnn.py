@@ -78,11 +78,11 @@ class NNet:
         self.possible_to_run = True
 
 
-    def fit_data_to_model(self):
+    def fit_data_to_model(self,numEpoch):
         self.classifier.fit_generator(
             self.training_set,
             steps_per_epoch=80,
-            epochs=4,
+            epochs=numEpoch,
             validation_data=self.test_set,
             workers=100,
             max_queue_size=100,
@@ -130,14 +130,14 @@ class NNet:
 
         return img_tensor
 
-    def run_train(self):
+    def run_train(self,numEpoch):
         self.conv_pool_layers()
         self.flattening()
         self.full_connection()
         self.gen_train_test()
-        self.fit_data_to_model()
+        self.fit_data_to_model(numEpoch)
 
 if __name__ == '__main__':
     nnet = NNet()
     # nnet.make_prediction_on_model("3.jpg")
-    nnet.run_train()
+    # nnet.run_train()

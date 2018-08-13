@@ -51,13 +51,13 @@ def training():
 
     form = TrainingField(request.form)
     if request.method == 'POST':
-        noe = request.form['noe']
+        noe = int(request.form['noe'])
         imgaug = request.form['imgaug']
         modelname = request.form['modelname']
         print(noe,imgaug,modelname)
 
         nnet = NNet()
-        nnet.run_train()
+        nnet.run_train(noe)
         return render_template('thanks.html')
 
     return render_template('training.html', form=form)
