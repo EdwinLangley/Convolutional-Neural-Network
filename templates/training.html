@@ -1,0 +1,31 @@
+{% extends 'layout.html' %} {% block body %}
+<div class="jumbotron text-center">
+    <h1>Training</h1>
+    <p>Train the model from this page</p>
+</div>
+
+
+<form action="" method="post" enctype="multipart/form-data">
+    <div class="input number">
+        {{ form.noe.label }} {{ form.noe }}
+    </div>
+    </br>
+    <div class="input choice">
+        {{ form.imgaug.label }} {{ form.imgaug }}
+    </div>
+
+    </br>
+
+    <div class="input choice">
+        {{ form.modelname.label }} {{ form.modelname }}
+    </div>
+
+    </br>
+
+    </br>
+    <div class="input submit">
+        <input type="submit" value="Submit" />
+    </div>
+
+
+    {% endblock %}

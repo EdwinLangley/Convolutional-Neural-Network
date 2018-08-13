@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators, SelectField, TextField, FileField
+from wtforms import Form, StringField, TextAreaField, PasswordField, validators, SelectField, TextField, FileField, IntegerField
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
@@ -8,7 +8,7 @@ import sqlite3
 from threading import Thread 
 import os
 
-#from cnn import NNet
+from cnn import NNet
 
 from databasehelper import database_object
 from dbrunner import DB_Runner
@@ -21,6 +21,7 @@ app = Flask(__name__)
 photos = UploadSet('photos', IMAGES)
 
 species_choices = [('Danaus plexippus','Danaus plexippus'),('Heliconius charitonius','Heliconius charitonius'),('Heliconius erato','Heliconius erato'),('Junonia coenia','Junonia coenia'),('Lycaena phlaeas','Lycaena phlaeas'),('Nymphalis antiopa','Nymphalis antiopa'),('Papilio cresphontes','Papilio cresphontes'),('Pieris rapae','Pieris rapae'),('Vanessa atalanta','Vanessa atalanta'),('Vanessa cardui','Vanessa cardui')]
+img_aug_choices = [('YES','YES'),('NO','NO')]
 
 app.config['UPLOADED_PHOTOS_DEST'] = 'static/img'
 configure_uploads(app, photos)
@@ -36,9 +37,30 @@ class ContributionDetails(Form):
     name = TextField('Name:', validators=[validators.required()])
     species = SelectField('Species:', choices=species_choices)
 
+class TrainingField(Form):
+    noe = IntegerField('Number Of Epochs', validators=[validators.required(), validators.NumberRange(min=0, max=10)])
+    imgaug = SelectField('With Image Augmentation:', choices=img_aug_choices)
+    modelname = TextField('Model Name:', validators=[validators.required()])
+
 @app.route('/')
 def index():
     return render_template('home.html')
+
+@app.route('/training', methods=['GET', 'POST'])
+def training():
+
+    form = TrainingField(request.form)
+    if request.method == 'POST':
+        noe = request.form['noe']
+        imgaug = request.form['imgaug']
+        modelname = request.form['modelname']
+        print(noe,imgaug,modelname)
+
+        nnet = NNet()
+        nnet.run_train()
+        return render_template('thanks.html')
+
+    return render_template('training.html', form=form)
 
 @app.route('/about')
 def about():
@@ -87,5 +109,5 @@ def predict():
 if __name__ == '__main__':
     db = database_object()
     db.create_table()
-    app.run(debug=True)
+    app.run(debug=True,host='0.0.0.0',port=25565)
     
