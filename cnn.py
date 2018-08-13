@@ -10,6 +10,8 @@ import numpy as np
 from keras.preprocessing import image
 import os
 from keras.preprocessing.image import ImageDataGenerator
+from keras.backend import clear_session
+from keras.utils import plot_model
 
 
 class NNet:
@@ -130,12 +132,17 @@ class NNet:
 
         return img_tensor
 
-    def run_train(self,numEpoch):
+    def run_train(self,numEpoch,path):
         self.conv_pool_layers()
         self.flattening()
         self.full_connection()
         self.gen_train_test()
         self.fit_data_to_model(numEpoch)
+        self.save_model("Models/"+path+".h5")
+        plot_model(self.classifier, to_file="model.png")
+        clear_session()
+        
+        
 
 if __name__ == '__main__':
     nnet = NNet()

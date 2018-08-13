@@ -57,7 +57,7 @@ def training():
         print(noe,imgaug,modelname)
 
         nnet = NNet()
-        nnet.run_train(noe)
+        nnet.run_train(noe,modelname)
         return render_template('thanks.html')
 
     return render_template('training.html', form=form)
