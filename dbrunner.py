@@ -8,7 +8,7 @@ class DB_Runner():
     def __init__(self):
         self.db = database_object()
         self.nnet = NNet()
-        self.nnet.load_model("newmodel.h5")
+        self.nnet.load_model("Models/Models/epoch100spe200.h5")
         self.runner()        
 
     def runner(self):

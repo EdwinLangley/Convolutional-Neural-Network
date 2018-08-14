@@ -6,17 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Lepidopterarium</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="home.css" />
 </head>
 
-<body>
+<body background=static/background.png>
 
     <style>
         body {
-            background: url(https://desktopwalls.net/wp-content/uploads/2014/07/Rural%20Country%20Hills%20Tilt%20Shift%20Desktop%20Wallpaper.jpg);
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
@@ -59,13 +55,14 @@
             text-decoration: none;
         }
 
-        .centered {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            margin-top: 50px;
-            margin-left: -713px;
-        }
+        .btn {
+            font-size:0.875em;
+            display:block;
+            left:-60px;
+            margin-top:35px;
+            width:65%;
+            }
+
     </style>
 
     {% include 'includes/_navbar.html' %}
@@ -78,19 +75,18 @@
 
     <div class="centered">
         <center>
-            <a href="/about"><button class="homeButtons">About</button></a>
+            <a href="/about"><button class="homeButtons btn">About</button></a>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="/predict"><button class="homeButtons">Predict</button></a>
+            <a href="/predict"><button class="homeButtons btn">Predict</button></a>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="/contribute"><button class="homeButtons">Contribute</button></a>
+            <a href="/contribute"><button class="homeButtons btn">Contribute</button></a>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="/results"><button class="homeButtons">Results</button></a>
+            <a href="/results"><button class="homeButtons btn">Results</button></a>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="/training"><button class="homeButtons">Training</button></a>
+            <a href="/training"><button class="homeButtons btn">Training</button></a>
         </center>
         <br>
     </div>
-
 
 </body>
 

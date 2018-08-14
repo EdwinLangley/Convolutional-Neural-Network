@@ -72,3 +72,20 @@ class database_object():
         c.execute("INSERT INTO model(time,name,valacc,valloss,acc,loss,training_curve_path,training_structure_path) VALUES(CURRENT_TIMESTAMP,'" + str(name) + "'," + str(valacc) + "," + str(valloss) + "," + str(acc) + "," + str(loss) + ",'" + training_curve_path + "','" + training_structure_path + "');")
         self.conn.commit()
         self.conn.close()
+
+    def retrieve_models(self):
+        self.create_connection()
+        c = self.conn.cursor()
+        cur = c.execute("SELECT * FROM model;")
+
+        Results = [dict(Time=row[0],
+                    Name=row[1],
+                    ValAcc=str(round(row[2]*100,2)),
+                    ValLoss=str(round(row[3]*100,2)),
+                    Acc=str(round(row[4]*100,2)),
+                    Loss=str(round(row[5]*100,2)),
+                    Curve=row[6],
+                    Structure=row[7]) for row in cur.fetchall()]
+
+        self.conn.close()
+        return Results

@@ -83,7 +83,7 @@ class NNet:
         plt.xlabel('Epoch')
         plt.legend(['Train', 'Test'], loc='upper left')
         plt.savefig(path)
-        self.db.save_model_data(self.modelname,self.val_acc[-1],self.val_loss[-1],self.acc[-1],self.loss[-1],path,"Models/training_graphs/"+self.modelname+"_structure.jpg")
+        self.db.save_model_data(self.modelname,self.val_acc[-1],self.val_loss[-1],self.acc[-1],self.loss[-1],path,"static/model_results/"+self.modelname+"_structure.jpg")
 
     def save_model(self, path):
         self.classifier.save(path)
@@ -93,10 +93,10 @@ class NNet:
         self.possible_to_run = True
 
 
-    def fit_data_to_model(self,numEpoch):
+    def fit_data_to_model(self,numEpoch,stepEpoch):
         history = self.classifier.fit_generator(
             self.training_set,
-            steps_per_epoch=80,
+            steps_per_epoch=stepEpoch,
             epochs=numEpoch,
             validation_data=self.test_set,
             workers=100,
@@ -149,16 +149,16 @@ class NNet:
 
         return img_tensor
 
-    def run_train(self,numEpoch,path):
+    def run_train(self,numEpoch,path,spe):
         self.modelname = path
         self.conv_pool_layers()
         self.flattening()
         self.full_connection()
         self.gen_train_test()
-        self.fit_data_to_model(numEpoch)
-        self.save_training_stats("Models/training_graphs/"+path+".jpg")
+        self.fit_data_to_model(numEpoch,spe)
+        self.save_training_stats("static/model_results/"+path+".jpg")
         self.save_model("Models/Models/"+path+".h5")
-        plot_model(self.classifier, to_file="Models/training_graphs/"+path+"_structure.jpg")
+        plot_model(self.classifier, to_file="static/model_results/"+path+"_structure.jpg")
         clear_session()
         
         
@@ -166,4 +166,4 @@ class NNet:
 if __name__ == '__main__':
     nnet = NNet()
     # nnet.make_prediction_on_model("3.jpg")
-    nnet.run_train(2,"twe")
+    # nnet.run_train(2,"twe")

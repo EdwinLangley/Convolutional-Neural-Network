@@ -37,9 +37,11 @@ class ContributionDetails(Form):
     species = SelectField('Species:', choices=species_choices)
 
 class TrainingField(Form):
-    noe = IntegerField('Number Of Epochs', validators=[validators.required(), validators.NumberRange(min=0, max=10)])
+    noe = IntegerField('Number of Epochs', validators=[validators.required(), validators.NumberRange(min=0, max=10)])
+    spe = IntegerField('Steps per Epoch', validators=[validators.required(), validators.NumberRange(min=0, max=10000)])
     imgaug = SelectField('With Image Augmentation:', choices=img_aug_choices)
     modelname = TextField('Model Name:', validators=[validators.required()])
+
 
 @app.route('/')
 def index():
@@ -51,12 +53,13 @@ def training():
     form = TrainingField(request.form)
     if request.method == 'POST':
         noe = int(request.form['noe'])
+        spe = int(request.form['spe'])
         imgaug = request.form['imgaug']
         modelname = request.form['modelname']
         print(noe,imgaug,modelname)
 
         nnet = NNet()
-        nnet.run_train(noe,modelname)
+        nnet.run_train(noe,modelname,spe)
         return render_template('thanks.html')
 
     return render_template('training.html', form=form)
@@ -65,9 +68,10 @@ def training():
 def about():
     return render_template('about.html')
 
-@app.route('/models')
+@app.route('/models', methods=['GET', 'POST'])
 def models():
-    return render_template('models.html')
+    Results = db.retrieve_models()
+    return render_template('models.html',Results=Results)
 
 @app.route('/contribute', methods=['GET', 'POST'])
 def contribute():

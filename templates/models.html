@@ -2,9 +2,42 @@
 <div class="jumbotron text-center">
     <h1>Models</h1>
     <p>View the accuracy and structure of trained models from this page</p>
+
+
+
+<style>
+    table, th, td {
+    border: 1px solid black;
+}
+</style>
+
+<table style="width:100%">
+    <tr>
+        <th>Name</th>
+        <th>ValAcc</th>
+        <th>ValLoss</th>
+        <th>Acc</th>
+        <th>Loss</th>
+        <th>Curve</th>
+        <th>Structure</th>
+    </tr>
+    {% for result in Results %}
+    <tr>
+        <td>{{ result.Name }}</td>
+        <td>{{ result.ValAcc }}%</td>
+        <td>{{ result.ValLoss }}%</td>
+        <td>{{ result.Acc }}%</td>
+        <td>{{ result.Loss }}%</td>
+        <td><a href="/{{ result.Curve }}">View</a></td>
+        <td><a href="/{{ result.Structure }}">View</a></td>
+
+    </tr>
+    {% endfor %}
+
+</table>
+
 </div>
-
-
-
     
 {% endblock %}
+
+
