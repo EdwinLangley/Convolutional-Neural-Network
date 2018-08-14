@@ -49,3 +49,26 @@ class database_object():
         c.execute("UPDATE predictions SET outcome ='" + newfilename + "' WHERE time ='" + time + "';")
         self.conn.commit()
         self.conn.close()
+
+    def create_model_table(self):
+        self.create_connection()
+        c = self.conn.cursor()
+        c.execute("""CREATE TABLE IF NOT EXISTS model(
+            time TEXT,
+            name TEXT,
+            valacc REAL,
+            valloss REAL,
+            acc REAL,
+            loss REAL,
+            training_curve_path TEXT,
+            training_structure_path TEXT
+        );""")
+        self.conn.commit()
+        self.conn.close()
+
+    def save_model_data(self,name,valacc,valloss,acc,loss,training_curve_path,training_structure_path):
+        self.create_connection()
+        c = self.conn.cursor()
+        c.execute("INSERT INTO model(time,name,valacc,valloss,acc,loss,training_curve_path,training_structure_path) VALUES(CURRENT_TIMESTAMP,'" + str(name) + "'," + str(valacc) + "," + str(valloss) + "," + str(acc) + "," + str(loss) + ",'" + training_curve_path + "','" + training_structure_path + "');")
+        self.conn.commit()
+        self.conn.close()

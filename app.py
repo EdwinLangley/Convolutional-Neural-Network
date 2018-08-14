@@ -30,7 +30,6 @@ class PredictionDetails(Form):
     photo = FileField('Photo', validators=[FileAllowed(photos, u'Image only!'), FileRequired(u'File was empty!')])
     name = TextField('Name:', validators=[validators.required()])
     email = TextField('Email:', validators=[validators.required()])
-    # actualTag = SelectField("Tag", choices=species_choices)
 
 class ContributionDetails(Form):
     photo = FileField('Photo', validators=[FileAllowed(photos, u'Image only!'), FileRequired(u'File was empty!')])
@@ -65,6 +64,10 @@ def training():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/models')
+def models():
+    return render_template('models.html')
 
 @app.route('/contribute', methods=['GET', 'POST'])
 def contribute():
@@ -109,5 +112,6 @@ def predict():
 if __name__ == '__main__':
     db = database_object()
     db.create_table()
+    db.create_model_table()
     app.run(debug=True,host='0.0.0.0',port=25565)
     

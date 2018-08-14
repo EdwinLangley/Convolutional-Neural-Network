@@ -12,6 +12,8 @@ import os
 from keras.preprocessing.image import ImageDataGenerator
 from keras.backend import clear_session
 from keras.utils import plot_model
+from databasehelper import database_object
+
 
 
 class NNet:
@@ -19,6 +21,7 @@ class NNet:
     def __init__(self):
         self.classifier = Sequential()
         self.possible_to_run = False
+        self.db = database_object()
 
 
     def conv_pool_layers(self):
@@ -72,6 +75,16 @@ class NNet:
                                                     class_mode='categorical')
 
 
+    def save_training_stats(self,path):
+        plt.plot(self.val_acc)
+        plt.plot(self.acc)
+        plt.title('Model Accuracy')
+        plt.ylabel('Accuracy')
+        plt.xlabel('Epoch')
+        plt.legend(['Train', 'Test'], loc='upper left')
+        plt.savefig(path)
+        self.db.save_model_data(self.modelname,self.val_acc[-1],self.val_loss[-1],self.acc[-1],self.loss[-1],path,"Models/training_graphs/"+self.modelname+"_structure.jpg")
+
     def save_model(self, path):
         self.classifier.save(path)
 
@@ -81,7 +94,7 @@ class NNet:
 
 
     def fit_data_to_model(self,numEpoch):
-        self.classifier.fit_generator(
+        history = self.classifier.fit_generator(
             self.training_set,
             steps_per_epoch=80,
             epochs=numEpoch,
@@ -92,6 +105,10 @@ class NNet:
             verbose=1,
             use_multiprocessing=False)
         self.possible_to_run = True
+        self.val_loss = history.history['val_loss']
+        self.val_acc = history.history['val_acc']
+        self.loss = history.history['loss']
+        self.acc = history.history['acc']
 
 
     def make_prediction_on_model(self, path):
@@ -133,13 +150,15 @@ class NNet:
         return img_tensor
 
     def run_train(self,numEpoch,path):
+        self.modelname = path
         self.conv_pool_layers()
         self.flattening()
         self.full_connection()
         self.gen_train_test()
         self.fit_data_to_model(numEpoch)
-        self.save_model("Models/"+path+".h5")
-        plot_model(self.classifier, to_file="model.png")
+        self.save_training_stats("Models/training_graphs/"+path+".jpg")
+        self.save_model("Models/Models/"+path+".h5")
+        plot_model(self.classifier, to_file="Models/training_graphs/"+path+"_structure.jpg")
         clear_session()
         
         
@@ -147,4 +166,4 @@ class NNet:
 if __name__ == '__main__':
     nnet = NNet()
     # nnet.make_prediction_on_model("3.jpg")
-    # nnet.run_train()
+    nnet.run_train(2,"twe")
