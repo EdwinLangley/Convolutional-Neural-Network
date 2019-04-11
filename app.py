@@ -7,7 +7,8 @@ from wtforms import SubmitField
 import sqlite3
 from threading import Thread 
 import os
-
+from tagger import Tagger
+from filter_generator import FilterGenerator
 from cnn import NNet
 
 from databasehelper import database_object
@@ -28,7 +29,7 @@ app.config['UPLOADED_PHOTOS_DEST'] = 'static/img'
 configure_uploads(app, photos)
 
 class PredictionDetails(Form):
-    photo = FileField('Photo', validators=[FileAllowed(photos, u'Image only!'), FileRequired(u'File was empty!')])
+    photo = FileField('Photo', validators=[FileAllowed(('png', 'jpg'), u'Image only!'), FileRequired(u'File was empty!')])
     name = TextField('Name:', validators=[validators.required()])
     email = TextField('Email:', validators=[validators.required()])
 
@@ -42,6 +43,11 @@ class TrainingField(Form):
     spe = IntegerField('Steps per Epoch', validators=[validators.required(), validators.NumberRange(min=0, max=10000)])
     imgaug = SelectField('With Image Augmentation:', choices=img_aug_choices)
     modelname = TextField('Model Name:', validators=[validators.required()])
+
+class keywordsField(Form):
+    Lclass = SelectField('Species:', choices=species_choices)
+    textcontents = TextAreaField('Text:', validators=[validators.required()])
+
 
 
 @app.route('/')
@@ -112,11 +118,33 @@ def predict():
     
     return render_template('predict.html', form=form)
 
+@app.route('/keywords', methods=['GET', 'POST'])
+def keywords():
+
+    form = keywordsField(request.form)
+
+
+    if request.method == 'POST' and request.form['btn'] == 'Submit':
+        text = request.form['textcontents']
+        Lclass = request.form['Lclass']
+        print(text)
+        tagger = Tagger(text)
+        tagger.tokenise_text()
+        tagger.tag_text()
+        words = tagger.identify_uses()
+        filtergen = FilterGenerator(words)
+        filtergen.find_background_colour()
+        return render_template('keywords.html', form = form, words = words)
+
+    if request.method == 'POST' and request.form['btn'] == 'Proceed':
+        return render_template('keywords.html', form = form, words = words)
+
+    return render_template('keywords.html', form = form)
 
 
 if __name__ == '__main__':
     db = database_object()
     db.create_table()
     db.create_model_table()
-    app.run(debug=True,host='0.0.0.0',port=25565)
+    app.run(debug=True,host='0.0.0.0',port=25565, threaded=True)
     

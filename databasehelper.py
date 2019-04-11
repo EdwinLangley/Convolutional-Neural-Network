@@ -8,7 +8,7 @@ class database_object():
         self.path_to_db = 'db/predictions.db'
 
     def create_connection(self):
-        self.conn = sqlite3.connect(self.path_to_db)
+        self.conn = sqlite3.connect(self.path_to_db, check_same_thread=False)
 
     def create_table(self):
         self.create_connection()
@@ -31,15 +31,16 @@ class database_object():
         self.conn.close()
 
     def get_all_entries(self):
-        self.create_connection()
-        c = self.conn.cursor()
+        #self.create_connection()
+        conn = sqlite3.connect(self.path_to_db, check_same_thread=False)
+        c = conn.cursor()
         cur = c.execute("SELECT * FROM predictions")
         Results = [dict(Time=row[0],
                     Name=row[1],
                     Email=row[2],
                     FileName=row[3],
                     Outcome=row[4]) for row in cur.fetchall()]
-        self.conn.close()
+        conn.close()
         return Results
 
     def set_new_outcome(self, newfilename, time):
@@ -74,8 +75,9 @@ class database_object():
         self.conn.close()
 
     def retrieve_models(self):
-        self.create_connection()
-        c = self.conn.cursor()
+        #self.create_connection()
+        conn = sqlite3.connect(self.path_to_db, check_same_thread=False)
+        c = conn.cursor()
         cur = c.execute("SELECT * FROM model;")
 
         Results = [dict(Time=row[0],
@@ -87,5 +89,5 @@ class database_object():
                     Curve=row[6],
                     Structure=row[7]) for row in cur.fetchall()]
 
-        self.conn.close()
+        conn.close()
         return Results

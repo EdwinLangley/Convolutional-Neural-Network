@@ -1,0 +1,46 @@
+        {% extends 'layout.html' %} {% block body %}
+        <div class="jumbotron text-center">
+            <h1>Keywords</h1>
+            <p>This is the page to obtain all of the keywords relating to a species</p>
+
+        <form action="" method="POST">
+            <div class="form-group" width=100%>
+                {{ form.textcontents.label }} {{ form.textcontents }}
+            </div>
+            <div class="form-group">
+                {{ form.Lclass.label }} {{ form.Lclass }}
+            </div>
+            <div class="input submit">
+                <input name="btn" type="submit" value="Submit" />
+            </div>
+            </form>
+        
+            <div>
+
+            
+        {% if words is defined %}
+        <br><br>
+        <table style="width:100%" class="table-striped">
+            <tr>
+                <th>Phrase</th>
+                <th>Useful</th>
+            </tr>
+            {% for result in words %}
+            <tr>
+                <td>{{ result }}</td>
+                <td><button class="btn btn-danger">Remove</button></td>
+            </tr>
+            {% endfor %}
+        
+        </table>
+
+        <form action="" method="POST">
+            <div class="input submit">
+                <input name="btn" type="submit" value="Proceed" />
+            </div>
+            </form>
+        {% endif %}
+    </div>
+    </div>
+
+        {% endblock %}

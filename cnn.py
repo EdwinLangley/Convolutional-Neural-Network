@@ -28,31 +28,25 @@ class NNet:
 
     def conv_pool_layers(self):
         self.classifier.add(Convolution2D(32, (3, 3), input_shape=(64, 64, 3), activation='relu'))
-
-        # Step 2 - Pooling
         self.classifier.add(MaxPooling2D(pool_size=(2, 2)))
 
-        # Adding a second convolutional layer
+        self.classifier.add(Convolution2D(32, (3, 3), activation="relu"))
+        self.classifier.add(MaxPooling2D(pool_size=(2, 2)))
+
         self.classifier.add(Convolution2D(64, (3, 3), activation="relu"))
         self.classifier.add(MaxPooling2D(pool_size=(2, 2)))
 
-        self.classifier.add(Convolution2D(128, (3, 3), activation="relu"))
-        self.classifier.add(MaxPooling2D(pool_size=(2, 2)))
-
-        self.classifier.add(Convolution2D(256, (3, 3), activation="relu"))
-        self.classifier.add(MaxPooling2D(pool_size=(2, 2)))
-
+        # self.classifier.add(Convolution2D(64, (3, 3), activation="relu"))
+        # self.classifier.add(MaxPooling2D(pool_size=(2, 2)))
 
     def flattening(self):
         self.classifier.add(Flatten())
 
-
     def full_connection(self):
-        # Step 4 - Full connection
+        self.classifier.add(Dense(activation="relu", units=128))
         self.classifier.add(Dense(activation="relu", units=128))
         self.classifier.add(Dense(activation="softmax", units=10))
 
-        # Compiling the CNN
         self.classifier.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 
@@ -160,7 +154,7 @@ class NNet:
         self.fit_data_to_model(numEpoch,spe)
         self.save_training_stats("static/model_results/"+path+".jpg")
         self.save_model("Models/Models/"+path+".h5")
-        plot_model(self.classifier, to_file="static/model_results/"+path+"_structure.jpg")
+        plot_model(self.classifier, to_file="static/model_results/"+path+"_structure.jpg", show_shapes=True)
         clear_session()
         
         
