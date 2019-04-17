@@ -17,6 +17,7 @@
         <th>Name</th>
         <th>Email</th>
         <th>Image Name</th>
+        <th>Features</th>
         <th>Outcome</th>
     </tr>
     {% for result in Results %}
@@ -25,12 +26,16 @@
         <td>{{ result.Name }}</td>
         <td>{{ result.Email }}</td>
         <td><a href="/static/img/{{ result.FileName }}">{{ result.FileName }}</a></td>
+        {% if result.Features == None %}
+            <td>{{ result.Features }}</td>
+        {% else %}
+            <td><a href="/static/features/{{ result.Features }}">View</a></td>
+        {% endif %}        
         {% if result.Outcome == 'Not Yet Classified' %}
             <td>{{ result.Outcome }}</td>
         {% else %}
             <td><a href="/static/results/{{ result.Outcome }}">View</a></td>
         {% endif %}
-
     </tr>
     {% endfor %}
 

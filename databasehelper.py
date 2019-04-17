@@ -39,7 +39,8 @@ class database_object():
                     Name=row[1],
                     Email=row[2],
                     FileName=row[3],
-                    Outcome=row[4]) for row in cur.fetchall()]
+                    Outcome=row[4],
+                    Features=row[5]) for row in cur.fetchall()]
         conn.close()
         return Results
 
@@ -48,6 +49,14 @@ class database_object():
         c = self.conn.cursor()
         print("UPDATE predictions SET outcome ='" + newfilename + "' WHERE time ='" + time + "');")
         c.execute("UPDATE predictions SET outcome ='" + newfilename + "' WHERE time ='" + time + "';")
+        self.conn.commit()
+        self.conn.close()
+
+    def set_new_features(self, newfilename, time):
+        self.create_connection()
+        c = self.conn.cursor()
+        print("UPDATE predictions SET features ='" + newfilename + "' WHERE time ='" + time + "');")
+        c.execute("UPDATE predictions SET features ='" + newfilename + "' WHERE time ='" + time + "';")
         self.conn.commit()
         self.conn.close()
 

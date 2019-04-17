@@ -14,7 +14,8 @@ from cnn import NNet
 from databasehelper import database_object
 from dbrunner import DB_Runner
 
-
+from pydarknet import Detector, Image
+import cv2
 
 #nnet = NNet()
 
@@ -122,8 +123,7 @@ def predict():
 def keywords():
 
     form = keywordsField(request.form)
-
-
+    
     if request.method == 'POST' and request.form['btn'] == 'Submit':
         text = request.form['textcontents']
         Lclass = request.form['Lclass']

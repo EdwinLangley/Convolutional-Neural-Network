@@ -115,6 +115,7 @@ class NNet:
         self.pred = self.classifier.predict(self.new_image)
 
         print(self.pred)
+        return self.pred
 
 
     def make_pie_chart(self,filename):
